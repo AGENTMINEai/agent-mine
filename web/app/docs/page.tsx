@@ -110,14 +110,18 @@ export default function DocsPage() {
             <ul className="mt-4 space-y-2 text-[13px] leading-relaxed text-ink-soft">
               <li>
                 {d.verifyVault}
-                <a
-                  href={`${SITE.bscScan}/address/${SITE.vault}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="ml-1 font-mono text-[11.5px] text-mine-amber hover:underline"
-                >
-                  {SITE.vault || t.footer.toDeploy}
-                </a>
+                {SITE.vault ? (
+                  <a
+                    href={`${SITE.bscScan}/address/${SITE.vault}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-1 font-mono text-[11.5px] text-mine-amber hover:underline"
+                  >
+                    {SITE.vault}
+                  </a>
+                ) : (
+                  <span className="ml-1 font-mono text-[11.5px] text-ink-faint">{t.footer.toDeploy}</span>
+                )}
               </li>
               <li>
                 {d.verifyRegistry}

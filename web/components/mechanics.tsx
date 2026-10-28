@@ -43,14 +43,16 @@ export function Mechanics() {
             <span className="text-mine-danger/90">{t.mechanics.riskTitle}</span>
             {t.mechanics.risk}
           </span>
-          <a
-            href={`${SITE.bscScan}/address/${SITE.vault}`}
-            target="_blank"
-            rel="noreferrer"
-            className="shrink-0 font-mono text-[10.5px] text-ink-soft hover:text-ink"
-          >
-            {t.mechanics.bscScan}
-          </a>
+          {SITE.vault && (
+            <a
+              href={`${SITE.bscScan}/address/${SITE.vault}`}
+              target="_blank"
+              rel="noreferrer"
+              className="shrink-0 font-mono text-[10.5px] text-ink-soft hover:text-ink"
+            >
+              {t.mechanics.bscScan}
+            </a>
+          )}
         </div>
       </div>
     </section>

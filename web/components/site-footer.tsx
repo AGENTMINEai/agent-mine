@@ -60,14 +60,18 @@ export function SiteFooter() {
             <Link href="/docs" className="text-ink-soft hover:text-ink">
               {t.footer.docs}
             </Link>
-            <a
-              href={`${SITE.bscScan}/address/${SITE.vault}`}
-              target="_blank"
-              rel="noreferrer"
-              className="text-ink-soft hover:text-ink"
-            >
-              {t.footer.vault}
-            </a>
+            {SITE.vault ? (
+              <a
+                href={`${SITE.bscScan}/address/${SITE.vault}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-ink-soft hover:text-ink"
+              >
+                {t.footer.vault}
+              </a>
+            ) : (
+              <span className="text-ink-faint">{t.footer.toDeploy}</span>
+            )}
             <Link href="/#skill" className="text-ink-soft hover:text-ink">
               {t.footer.skill}
             </Link>
