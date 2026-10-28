@@ -6,6 +6,8 @@ cache/
 typechain-types/
 .aimine.json
 *.log
+*.tar.gz
+*.zip
 .screenshots/
 
 # env files: keep templates, never commit real values
