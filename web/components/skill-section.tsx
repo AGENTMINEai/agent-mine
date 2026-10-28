@@ -87,8 +87,8 @@ aimine watch --interval 300 --min 0.005`;
 
   const prompt =
     locale === "zh"
-      ? `用 agent-mine 技能帮我挖矿。矿池是 ${vault}，代币是 ${tokenLabel}。先运行 aimine init 绑定这两个地址，再用 aimine doctor 检查我的 .ai，然后认领矿机、按最低质押量质押，最后常驻 aimine watch --interval 300。需要我在手机上确认的交易，告诉我。`
-      : `Install the agent-mine skill and mine for me. Vault ${vault}, token ${tokenLabel}. Run aimine init with those two addresses, then aimine doctor to check my .ai, claim a rig, stake the minimum, and keep aimine watch --interval 300 running. Tell me when a transaction needs my confirmation in the app.`;
+      ? `帮我安装并运行 agent-mine 挖矿技能。第一步先执行：git clone ${REPO} && node agent-mine/cli/install.mjs。装好后运行 aimine init --vault ${vault} --token ${tokenLabel}，再用 aimine doctor 检查我的 .ai，然后认领矿机、按最低质押量质押，最后常驻 aimine watch --interval 300。需要我在手机上确认的交易，告诉我。`
+      : `Install and run the agent-mine skill for me. First run: git clone ${REPO} && node agent-mine/cli/install.mjs. Then aimine init --vault ${vault} --token ${tokenLabel}, aimine doctor to check my .ai, claim a rig, stake the minimum, and keep aimine watch --interval 300 running. Tell me when a transaction needs my confirmation in the app.`;
 
   return (
     <section id="skill" className="relative py-20">
