@@ -192,8 +192,8 @@ const en = {
       ["maxRigs", "260"],
       ["minStake", "100,000 tokens"],
       ["dripWindow", "86,400s (24h)"],
-      ["Buy / sell tax", "5% / 5%"],
-      ["Tax split", "Pool 70% · Liquidity 10% · Burn 10% · Marketing 10%"],
+      ["Buy / sell tax", "2% / 2%"],
+      ["Tax split", "Pool share live · remainder per token config"],
     ],
     securityTitle: "Security properties",
     securityItems: [
@@ -405,8 +405,8 @@ const zh: Dict = {
       ["maxRigs", "260"],
       ["minStake", "100,000 代币"],
       ["dripWindow", "86,400 秒（24 小时）"],
-      ["买卖税", "5% / 5%"],
-      ["税收分配", "矿池 70% · 流动性 10% · 销毁 10% · 市场 10%"],
+      ["买卖税", "2% / 2%"],
+      ["税收分配", "矿池份额已生效 · 其余按代币配置"],
     ],
     securityTitle: "安全属性",
     securityItems: [
