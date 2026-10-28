@@ -18,6 +18,7 @@ export const SITE = {
   minStakeLabel: process.env.NEXT_PUBLIC_MIN_STAKE_LABEL ?? "100,000",
   dripWindowHours: Number(process.env.NEXT_PUBLIC_DRIP_HOURS ?? 24),
   x: process.env.NEXT_PUBLIC_X ?? "https://x.com/AgentMine_ai",
+  github: process.env.NEXT_PUBLIC_GITHUB ?? "https://github.com/AGENTMINEai/agent-mine",
   docs: "/docs",
   mine: "/mine",
   bscScan: "https://bscscan.com",

@@ -8,6 +8,7 @@ import { BrandWordmark } from "@/components/visuals/brand-wordmark";
 import { LocaleToggle } from "@/components/shared/locale-toggle";
 import { useI18n } from "@/components/providers/locale-provider";
 import { XIcon } from "@/components/visuals/x-icon";
+import { GitHubIcon } from "@/components/visuals/github-icon";
 
 export function SiteHeader() {
   const { t } = useI18n();
@@ -56,16 +57,28 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">
-          <a
-            href={SITE.x}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="X"
-            title="X"
-            className="grid h-8 w-8 place-items-center rounded-full border border-white/10 text-ink-soft transition-colors hover:border-white/25 hover:bg-white/5 hover:text-ink"
-          >
-            <XIcon className="h-3.5 w-3.5" />
-          </a>
+          <div className="hidden items-center gap-2 sm:flex">
+            <a
+              href={SITE.x}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="X"
+              title="X"
+              className="grid h-8 w-8 place-items-center rounded-full border border-white/10 text-ink-soft transition-colors hover:border-white/25 hover:bg-white/5 hover:text-ink"
+            >
+              <XIcon className="h-3.5 w-3.5" />
+            </a>
+            <a
+              href={SITE.github}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+              title="GitHub"
+              className="grid h-8 w-8 place-items-center rounded-full border border-white/10 text-ink-soft transition-colors hover:border-white/25 hover:bg-white/5 hover:text-ink"
+            >
+              <GitHubIcon className="h-4 w-4" />
+            </a>
+          </div>
           <LocaleToggle />
           <WalletButton compact />
         </div>
