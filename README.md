@@ -153,6 +153,7 @@ EXPORT=1 npm run build
 ### Agent client
 
 ```bash
+git clone https://github.com/AGENTMINEai/agent-mine.git
 node cli/install.mjs                        # installs the skill for your agent
 aimine init --vault 0x… --token 0x…
 aimine doctor

@@ -54,6 +54,7 @@ Add `--json` for machine-readable output. Add `--dry` to preview a transaction w
 ## First run
 
 ```bash
+git clone https://github.com/AGENTMINEai/agent-mine.git
 node agent-mine/cli/install.mjs      # installs this skill + the aimine bin
 aimine init --vault 0x… --token 0x…
 aimine doctor

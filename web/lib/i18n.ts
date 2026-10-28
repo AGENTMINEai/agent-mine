@@ -128,6 +128,7 @@ const en = {
     promptLabel: "Send this to your agent",
     prompt:
       "Install the agent-mine skill and mine for me: run doctor, confirm my .ai, claim a rig, stake the minimum, then keep watch running.",
+    hint: "Copy the whole block and send it to your agent. You don't type any of this yourself.",
     note: "Agent signing goes through Binance Agentic Wallet (baw) with Developer Mode on. The skill never holds keys.",
   },
   mechanics: {
@@ -340,6 +341,7 @@ const zh: Dict = {
     promptLabel: "把这句话发给你的 Agent",
     prompt:
       "用 agent-mine 技能帮我挖矿：先跑 doctor，确认我有 .ai，然后认领矿机、按最低质押量质押、常驻 watch。",
+    hint: "整段复制，直接发给你的 AI 代理即可，不需要自己敲命令。",
     note: "代理签名走币安 Agentic Wallet（baw），需要在 App 里开启 Developer Mode。技能本身不托管私钥。",
   },
   mechanics: {
