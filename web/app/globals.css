@@ -1,0 +1,266 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --hairline: rgba(255, 255, 255, 0.075);
+  --hairline-strong: rgba(255, 255, 255, 0.14);
+  --amber: 255, 180, 84;
+  --cyan: 77, 225, 255;
+}
+
+* {
+  border-color: var(--hairline);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: #040507;
+  color: #eef0f5;
+  font-family: var(--font-display);
+  font-feature-settings: "ss01" on, "ss03" on;
+  overflow-x: hidden;
+}
+
+section[id] {
+  scroll-margin-top: 96px;
+}
+
+::selection {
+  background: rgba(var(--amber), 0.25);
+  color: #fff8ec;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #040507;
+}
+::-webkit-scrollbar-thumb {
+  background: #22262f;
+  border-radius: 999px;
+  border: 2px solid #040507;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #343a46;
+}
+
+:focus-visible {
+  outline: 1px solid rgba(var(--amber), 0.75);
+  outline-offset: 3px;
+}
+
+@layer components {
+  .glass {
+    background-image: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.048) 0%,
+      rgba(255, 255, 255, 0.014) 100%
+    );
+    border: 1px solid var(--hairline);
+    backdrop-filter: blur(22px) saturate(135%);
+    -webkit-backdrop-filter: blur(22px) saturate(135%);
+  }
+
+  .glass-deep {
+    background-image: linear-gradient(
+      180deg,
+      rgba(16, 18, 24, 0.88) 0%,
+      rgba(8, 9, 13, 0.94) 100%
+    );
+    border: 1px solid var(--hairline);
+    backdrop-filter: blur(28px) saturate(130%);
+    -webkit-backdrop-filter: blur(28px) saturate(130%);
+  }
+
+  .hairline-top {
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
+  }
+
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(182, 186, 198, 0.72);
+  }
+
+  .number {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(100deg, #fff6e6 0%, #ffcf8a 38%, #ffb454 62%, #ffe9c6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gradient-text-cyan {
+    background: linear-gradient(100deg, #e8fdff 0%, #9fefff 45%, #4de1ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: transform 180ms ease, box-shadow 220ms ease, background-color 220ms ease,
+      border-color 220ms ease, opacity 200ms ease;
+    white-space: nowrap;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn-primary {
+    color: #1a1206;
+    background: linear-gradient(180deg, #ffd9a3 0%, #ffb454 52%, #f0a03c 100%);
+    box-shadow: 0 12px 34px -14px rgba(255, 180, 84, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 18px 44px -14px rgba(255, 180, 84, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  }
+
+  .btn-ghost {
+    color: #eef0f5;
+    border: 1px solid var(--hairline-strong);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.055);
+    border-color: rgba(255, 255, 255, 0.24);
+  }
+
+  .btn-danger {
+    color: #ffd9d9;
+    border: 1px solid rgba(255, 107, 107, 0.35);
+    background: rgba(255, 107, 107, 0.08);
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--hairline-strong), transparent);
+  }
+
+  .panel-glow {
+    position: relative;
+  }
+  .panel-glow::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(140deg, rgba(255, 180, 84, 0.45), transparent 35%, transparent 65%, rgba(77, 225, 255, 0.35));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  }
+}
+
+/* Traveling light along a stroked path: the dash gap is the "off" part. */
+@keyframes trace-flow {
+  from {
+    stroke-dashoffset: var(--trace-len, 620);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.trace-flow {
+  animation: trace-flow var(--trace-dur, 7s) linear infinite;
+  animation-delay: var(--trace-delay, 0s);
+}
+
+@keyframes core-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.97);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+.core-pulse {
+  animation: core-pulse 3.4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes led-blink {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.led-blink {
+  animation: led-blink 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trace-flow,
+  .core-pulse {
+    animation: none;
+  }
+}
+
+
+
+/* Logo wordmark: gold AGENT + blue MINE, rendered as live text. */
+.brand-gold {
+  background: linear-gradient(180deg, #fff0c8 0%, #f7c84b 48%, #d89406 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.brand-blue {
+  background: linear-gradient(180deg, #dcf4ff 0%, #6cc0ff 48%, #2d7bff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

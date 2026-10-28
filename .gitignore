@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+artifacts/
+cache/
+typechain-types/
+.aimine.json
+*.log
+.screenshots/
+
+# env files: keep templates, never commit real values
+.env
+.env.*
+!.env.example

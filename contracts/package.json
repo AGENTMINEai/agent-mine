@@ -1,0 +1,22 @@
+{
+  "name": "agent-mine-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Agent-ID gated FLAP tax mining vault (rigs + staked hashrate)",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:vault": "hardhat run scripts/deploy-vault.js --network bsc"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-verify": "^2.1.3",
+    "@openzeppelin/contracts": "5.1.0",
+    "chai": "^4.5.0",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.4",
+    "hardhat": "^2.26.0"
+  }
+}

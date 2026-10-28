@@ -1,0 +1,20 @@
+{
+  "name": "@agentmine/cli",
+  "version": "1.0.0",
+  "description": "Agent Mine CLI — mine the tax pool of an Agent-ID gated FLAP vault",
+  "type": "module",
+  "bin": {
+    "aimine": "bin/aimine.mjs"
+  },
+  "engines": {
+    "node": ">=18.18"
+  },
+  "scripts": {
+    "install-skill": "node install.mjs"
+  },
+  "files": [
+    "bin",
+    "install.mjs"
+  ],
+  "license": "MIT"
+}
