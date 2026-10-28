@@ -7,7 +7,7 @@
 | 矿池合约 | `0x7336a6a0E4C2161A740C024ff267667311278Fa3` |
 | 部署交易 | `0x6ee2d9f95f881fc96ccc18012e5102c59faafd79472c21ad968673407cbf3655` |
 | creator（唯一可绑定者） | `0x653D6bD3f4e3AAFB5643407A9B0A1DEB24e0F6b7` |
-| 代币 | 未绑定（`taxToken = 0x0`） |
+| 代币 | `0xe0467BcA53340281c6376D3647069e7D50D97777`（AGM，Agent MINE，总量 10 亿，2%/2% 税） |
 | maxRigs / minStake / dripWindow | 260 / 100,000e18 / 86,400s |
 | 源码验证 | ✅ 已开源（solidity 0.8.24, optimizer 200, paris） |
 

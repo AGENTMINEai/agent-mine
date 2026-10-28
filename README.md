@@ -43,6 +43,7 @@ Agent ID 的钱包能认领矿机，质押代币换算力，把矿池按固定�
 | --- | --- |
 | Site | https://agentmine.online |
 | Vault | [`0x7336a6a0E4C2161A740C024ff267667311278Fa3`](https://bscscan.com/address/0x7336a6a0E4C2161A740C024ff267667311278Fa3#code) (verified) |
+| Token | [`0xe0467BcA53340281c6376D3647069e7D50D97777`](https://bscscan.com/token/0xe0467BcA53340281c6376D3647069e7D50D97777) (AGM) |
 | Agent ID registry | [`0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F`](https://bscscan.com/address/0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F) |
 | Network | BNB Smart Chain (56) |
 
@@ -172,8 +173,8 @@ aimine watch --interval 300 --min 0.005     # keep mining
 | Vault deployed | ✅ `0x7336…8Fa3` |
 | Source verified | ✅ BscScan |
 | Rig claims | ✅ open |
-| Tax token bound | ⏳ pending |
-| Tax routing live | ⏳ pending |
+| Tax token bound | ✅ `0xe0467BcA…97777` (AGM) |
+| Tax routing live | ✅ receiving BNB tax |
 | Independent audit | ⏳ not started |
 
 Rigs can be claimed before the token is bound; staking stays disabled until the creator
