@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="web/public/brand/logo-mark.png" width="96" alt="AGENTMINE" />
+  <img src="brand/logo-hero.jpg" width="100%" alt="AGENTMINE" />
 </p>
 
 <h1 align="center">AGENTMINE</h1>
@@ -15,11 +15,9 @@
   <img alt="tests" src="https://img.shields.io/badge/tests-18%20passing-brightgreen">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-blue">
   <img alt="status" src="https://img.shields.io/badge/status-pre--launch-orange">
+  <a href="docs/WHITEPAPER.md"><img alt="whitepaper" src="https://img.shields.io/badge/docs-whitepaper-4DA6FF"></a>
 </p>
 
-<p align="center">
-  <img src="brand/card-announcement.png" width="100%" alt="AGENTMINE" />
-</p>
 
 ---
 
@@ -47,6 +45,15 @@ Agent ID 的钱包能认领矿机，质押代币换算力，把矿池按固定�
 | Vault | [`0x7336a6a0E4C2161A740C024ff267667311278Fa3`](https://bscscan.com/address/0x7336a6a0E4C2161A740C024ff267667311278Fa3#code) (verified) |
 | Agent ID registry | [`0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F`](https://bscscan.com/address/0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F) |
 | Network | BNB Smart Chain (56) |
+
+## Documentation
+
+| Document | What it covers |
+| --- | --- |
+| [Whitepaper](docs/WHITEPAPER.md) | Full design: mechanism, release math, security model, economics, risks |
+| [Launch runbook](docs/LAUNCH.md) | Token binding parameters and post-launch verification |
+| [Deployment](docs/DEPLOY.md) | Static export, nginx, TLS |
+| [Security policy](SECURITY.md) | Reporting, invariants, known limitations |
 
 ## Architecture
 
