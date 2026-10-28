@@ -1,50 +1,71 @@
-# 部署到服务器
+# Deployment
 
-线上地址：**https://agentmine.online**（`www` 同样可用，HTTP 301 跳 HTTPS）
+The site is a fully static Next.js export. It can be served by any static host; the
+notes below use nginx as the reference setup.
 
-- 服务器：`165.154.235.102`（Ubuntu，用户 `ubuntu`）
-- 站点目录：`/var/www/agentmine`
-- vhost：`/etc/nginx/sites-available/agentmine` → `sites-enabled/agentmine`
-- 证书：Let's Encrypt，覆盖 `agentmine.online` 与 `www.agentmine.online`，自动续期
-- 与 `aflap.fun` / `vortexflap.fun` / `autoneco.fun` 完全独立，互不影响
-
-## 一键更新（Windows Git Bash）
+## 1. Build
 
 ```bash
-# 1. 静态导出
-cd /d/币安AGENT/agent-mine/web
-EXPORT=1 npm run build
-
-# 2. 打包到 ASCII 路径（避免中文路径）
-tar czf "C:/Users/Admin/.zcode/workspace/default/ssh-deploy/agentmine-site.tar.gz" -C out .
-
-# 3. 上传（MSYS_NO_PATHCONV=1 必须带）
-cd "C:/Users/Admin/.zcode/workspace/default/ssh-deploy"
-MSYS_NO_PATHCONV=1 node run.mjs --upload \
-  "C:/Users/Admin/.zcode/workspace/default/ssh-deploy/agentmine-site.tar.gz" \
-  "/home/ubuntu/agentmine-site.tar.gz"
-
-# 4. 解包 + reload
-MSYS_NO_PATHCONV=1 node run.mjs --sudo /home/ubuntu/deploy-agentmine.sh
+cd web
+npm ci
+EXPORT=1 npm run build      # -> web/out
 ```
 
-`deploy-agentmine.sh` 只在 vhost **不存在时**才写配置——因为 certbot 已经把 443 配置写进
-`/etc/nginx/sites-available/agentmine`，每次覆盖会把 HTTPS 冲掉。
+`EXPORT=1` switches `next.config.mjs` to `output: "export"`, disables the image
+optimizer, and adds trailing slashes so directory-style hosts work.
 
-## 检查
+The export reads these build-time variables (see `web/.env.example`):
+
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_VAULT` | Vault address the site reads `poolState()` from |
+| `NEXT_PUBLIC_TOKEN` | Optional fallback; the site prefers the vault's on-chain `taxToken()` |
+| `NEXT_PUBLIC_AGENT_ID` | Agent ID registry (defaults to the BSC registry) |
+| `NEXT_PUBLIC_MAX_RIGS` / `NEXT_PUBLIC_DRIP_HOURS` | Display fallbacks |
+
+## 2. Serve
+
+Copy `web/out` to the web root, then use an nginx server block like:
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.example;
+
+    root /var/www/agentmine;
+    index index.html;
+
+    gzip on;
+    gzip_types text/css application/javascript application/json image/svg+xml;
+    gzip_min_length 1024;
+
+    location ^~ /_next/static/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }
+
+    location / {
+        add_header Cache-Control "no-cache";
+        try_files $uri $uri/ =404;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html { internal; }
+}
+```
+
+## 3. TLS
 
 ```bash
-curl -s --noproxy "*" -o /dev/null -w "%{http_code}\n" https://agentmine.online/
-curl -s --noproxy "*" -o /dev/null -w "%{http_code}\n" https://agentmine.online/docs/
-curl -s --noproxy "*" -o /dev/null -w "%{http_code} -> %{redirect_url}\n" http://agentmine.online/
+certbot --nginx -d your-domain.example -d www.your-domain.example --redirect
 ```
 
-## 证书
+Wallet providers refuse non-secure contexts, so HTTPS is required before the mine
+panel can be used in production.
 
-已签发，无需再操作。需要手动续期或重建时：
+## 4. Updating
 
-```bash
-MSYS_NO_PATHCONV=1 node run.mjs --sudo /home/ubuntu/issue-cert.sh
-```
-
-`issue-cert.sh` 使用 `certbot --nginx --redirect`，签发后自动写入 vhost 并加 80→443 跳转。
+Rebuild, replace the files, keep the vhost untouched. If you let certbot edit the
+server block, do not overwrite it blindly on later deploys — it holds the TLS
+configuration.

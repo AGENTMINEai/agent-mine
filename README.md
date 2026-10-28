@@ -1,60 +1,182 @@
-# Agent Mine
+<p align="center">
+  <img src="web/public/brand/logo-mark.png" width="96" alt="AGENTMINE" />
+</p>
 
-只有持有币安 `.ai` Agent ID 的钱包才能挖的矿场。代币在 FLAP 发射，交易税以 BNB 进入矿池，
-矿工认领矿机、质押项目代币换算力，把矿池挖走。合约里没有 owner、没有 pause、没有提款函数。
+<h1 align="center">AGENTMINE</h1>
 
-## 目录
+<p align="center">
+  A tax-funded mining vault on BNB Chain, open only to wallets holding a Binance <code>.ai</code> Agent ID.
+</p>
 
-| 目录 | 内容 |
+<p align="center">
+  <a href="https://agentmine.online"><img alt="site" src="https://img.shields.io/badge/site-agentmine.online-F0B90B"></a>
+  <a href="https://bscscan.com/address/0x7336a6a0E4C2161A740C024ff267667311278Fa3#code"><img alt="verified" src="https://img.shields.io/badge/contract-verified-54E6A4"></a>
+  <img alt="solidity" src="https://img.shields.io/badge/solidity-0.8.24-363636">
+  <img alt="tests" src="https://img.shields.io/badge/tests-18%20passing-brightgreen">
+  <img alt="license" src="https://img.shields.io/badge/license-MIT-blue">
+  <img alt="status" src="https://img.shields.io/badge/status-pre--launch-orange">
+</p>
+
+<p align="center">
+  <img src="brand/card-announcement.png" width="100%" alt="AGENTMINE" />
+</p>
+
+---
+
+## What this is
+
+An idle AI agent is an unused asset. AGENTMINE gives it a job: hold a claim on a real
+revenue stream and settle it automatically.
+
+The project token charges a buy/sell tax in BNB. That tax lands in a vault with **no
+owner, no pause and no withdraw function**. Miners claim a rig, stake the project token
+to build hashrate, and the vault releases its reserve to them on a fixed schedule. The
+only way BNB leaves the contract is `mine()`.
+
+Access is gated on-chain: a wallet must hold a Binance `.ai` Agent ID (`balanceOf > 0`
+on the SPACE ID registry) to claim a rig or to be paid.
+
+**中文简介**：代币的交易税进入一个没有管理员、没有提款函数的矿池。只有持有币安 `.ai`
+Agent ID 的钱包能认领矿机，质押代币换算力，把矿池按固定节奏挖走。网站默认英文，可切换中文。
+
+## Deployments
+
+| Item | Address |
 | --- | --- |
-| `contracts/` | `FlapMiningVault`（矿池）+ `FlapMiningVaultFactory`（FLAP 金库工厂）+ 15 项测试 |
-| `cli/` | `aimine` 零依赖命令行：读链 + 通过 `baw` 签名 |
-| `skill/` | 可安装的 agent-mine 技能（`SKILL.md` + 机制参考） |
-| `web/` | Next.js 站点（矿场控制台 + 实时数据可视化 + 线条光点动画 + 技能安装引导 + 机制文档） |
-| `docs/LAUNCH.md` | FLAP 发射参数与验证清单 |
+| Site | https://agentmine.online |
+| Vault | [`0x7336a6a0E4C2161A740C024ff267667311278Fa3`](https://bscscan.com/address/0x7336a6a0E4C2161A740C024ff267667311278Fa3#code) (verified) |
+| Agent ID registry | [`0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F`](https://bscscan.com/address/0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F) |
+| Network | BNB Smart Chain (56) |
 
-## 快速开始
+## Architecture
+
+```mermaid
+flowchart LR
+    T["Trade tax · BNB"] --> V[("FlapMiningVault")]
+    V -- "release = reserve / 86400 per second" --> A["accPerHash"]
+    A -- "pro-rata by hashrate" --> P["pending · per rig"]
+    P -- "mine()" --> W["Miner wallet"]
+    S["Staked project token"] -- "hashrate = stake" --> A
+    R[".ai Agent ID registry"] -. "balanceOf > 0" .-> C["claimRig / mine"]
+```
+
+## Mechanism
+
+1. **Claim a rig.** One soulbound rig per wallet, 260 total, gated on the `.ai` registry.
+2. **Stake for hashrate.** Hashrate is exactly the amount of project token staked. Below
+   `minStake` the rig has zero hashrate. Withdraw anytime.
+3. **The pool drips.** The vault releases `reserve / dripWindow` per second and accrues it
+   to current hashrate. No hashrate means no release; the reserve waits.
+4. **Settle.** `mine()` sends the caller's pending BNB to their wallet. The `.ai` balance is
+   re-checked at that moment.
+
+Release is exponential, not linear: with no new tax the reserve halves every 16.6 hours,
+so roughly 63% is released in the first 24 hours. With steady volume it settles near one
+day of tax. Yield follows volume; it is not a promised rate.
+
+Every stake and unstake settles first, then changes hashrate, so a wallet that stakes right
+after a large tax cannot capture what was already released.
+
+## Parameters
+
+| Parameter | Value |
+| --- | --- |
+| `maxRigs` | 260 |
+| `minStake` | 100,000 tokens |
+| `dripWindow` | 86,400 s (24 h) |
+| Agent ID gate | SPACE ID registry, immutable |
+| Admin surface | none |
+| Vault fee | 0% — tax BNB is 100% miner-owned |
+
+The factory variant (`contracts/FlapMiningVaultFactory.sol`) lets FLAP create a vault at
+launch time through `vaultFactory` + `vaultData`. The deployed vault above is standalone:
+its token is bound once by the creator with `setTaxToken`, which is irreversible.
+
+## Security model
+
+**What the contract cannot do**
+
+- no owner, no admin, no governance
+- no pause
+- no withdraw — tax BNB has exactly one exit, `mine()`
+- no upgrade, no proxy
+- no way to change `maxRigs`, `minStake`, `dripWindow` or the registry after deployment
+- no way to unbind or rebind the tax token
+
+**Invariants covered by tests**
+
+- `claimRig` and `mine` revert without a `.ai` balance
+- one soulbound rig per wallet, transfers revert
+- hashrate equals stake; below `minStake` it is zero
+- release never exceeds the reserve; a long gap cannot over-issue
+- staking and unstaking settle before changing hashrate
+- `setTaxToken` works once, only for the creator, and cannot be cleared
+- no `owner` / `withdraw` / `pause` symbols exist on the ABI
+
+> The contract is **not audited**. Read the verified source before staking.
+
+## Repository layout
+
+| Path | Contents |
+| --- | --- |
+| `contracts/` | `FlapMiningVault`, optional factory, mocks, 18 tests, deploy scripts |
+| `web/` | Next.js 14 site: bilingual (EN default), mining console, live pool telemetry |
+| `cli/` | `aimine` — zero-dependency client that reads BSC and signs through `baw` |
+| `skill/` | Installable agent skill (`SKILL.md`) for autonomous mining |
+| `brand/` | Code-generated social cards and the renderer |
+| `docs/` | Launch runbook (`LAUNCH.md`) and deployment notes (`DEPLOY.md`) |
+
+## Quick start
 
 ```bash
-# 合约
-cd contracts && npm install && npx hardhat test        # 15 passing
+# contracts
+cd contracts
+npm ci
+npx hardhat test            # 18 passing
 
-# 本地站点（生产模式，推荐）
-cd ../web && npm install && npm run build
-start.bat                                              # http://127.0.0.1:3100
+# site
+cd ../web
+npm ci
+npm run dev                 # http://localhost:3000
 
-# 开发模式
-cd ../web && npm run dev                               # http://localhost:3000
-
-# 技能
-node ../cli/install.mjs
+# static export (what production serves)
+EXPORT=1 npm run build
 ```
 
-## 链上事实（已验证）
+### Agent client
 
-- Agent ID 注册表：`0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F`（SPACE ID Agent ID / `AI`），`balanceOf > 0` 即持证。
-- FLAP VaultPortal：`0x90497450f2a706f1951b5bdda52B4E5d16f34C06`（BSC 56，有代码）。
-- `baw contract-call` 的外部合约调用实测 `requireConfirmation: false` —— 代理可无人值守广播。
-- FLAP 代币总量 10 亿；首发 260 台 × 最低质押 10 万 = 2.6% 供应。
-
-## 机制一句话
-
-```
-税收 BNB → reserve → 每秒释放 1/86400 → 按算力占比 → pending[rig] → mine() → 钱包
+```bash
+node cli/install.mjs                        # installs the skill for your agent
+aimine init --vault 0x… --token 0x…
+aimine doctor
+aimine rig                                  # claim a rig (needs .ai)
+aimine stake 100000                         # build hashrate
+aimine watch --interval 300 --min 0.005     # keep mining
 ```
 
-算力就是质押量。没有隐藏倍率，也没有加速道具。
+`aimine` never holds keys. It builds calldata and hands it to the Binance Agentic Wallet
+(`baw contract-call`), which signs with Developer Mode enabled.
 
-## 上线前必须做的两件事
+## Status
 
-1. **BscScan 验证工厂与金库源码。** 未验证的新合约会被币安风控判为高风险，代理的每笔交易都要手机确认。
-2. **验证税收真的进了金库。** 发一笔小额买卖，看金库的 `TaxReceived` 事件。这是整套方案唯一的硬依赖。
+| Item | State |
+| --- | --- |
+| Vault deployed | ✅ `0x7336…8Fa3` |
+| Source verified | ✅ BscScan |
+| Rig claims | ✅ open |
+| Tax token bound | ⏳ pending |
+| Tax routing live | ⏳ pending |
+| Independent audit | ⏳ not started |
 
-完整步骤见 [docs/LAUNCH.md](docs/LAUNCH.md)。
+Rigs can be claimed before the token is bound; staking stays disabled until the creator
+binds it, and binding is irreversible. See [`docs/LAUNCH.md`](docs/LAUNCH.md).
 
-## 已知限制
+## Links
 
-- 合约未审计。
-- 收益来自真实交易税，不是固定 APY。
-- FLAP 代币毕业前若不可转账，`stake` 要等可转账后开始。
-- 金库不可升级，参数必须一次定对。
+- Site: https://agentmine.online
+- X: https://x.com/AgentMine_ai
+- Vault: https://bscscan.com/address/0x7336a6a0E4C2161A740C024ff267667311278Fa3#code
+
+## License
+
+MIT — see [LICENSE](LICENSE).
