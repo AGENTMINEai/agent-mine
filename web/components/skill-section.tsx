@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Check, Copy, Terminal } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Check, ChevronDown, Copy, Terminal } from "lucide-react";
 import { useReadContract } from "wagmi";
 import { useI18n } from "@/components/providers/locale-provider";
 import { vaultAbi } from "@/lib/abi";
@@ -25,13 +25,13 @@ export function CopyBlock({ code, label }: { code: string; label?: string }) {
   }
 
   return (
-    <div className="group relative overflow-hidden rounded-xl border border-white/[0.07] bg-obsidian-950/70">
+    <div className="relative overflow-hidden rounded-md border border-white/[0.08] bg-black/40">
       {label && (
-        <div className="flex items-center justify-between border-b border-white/[0.06] px-3.5 py-2">
-          <span className="label-mono text-[8.5px] tracking-[0.24em]">{label}</span>
+        <div className="flex items-center justify-between border-b border-white/[0.06] px-3 py-1.5">
+          <span className="label-mono text-[8px] tracking-[0.2em]">{label}</span>
           <button
             onClick={copy}
-            className="flex items-center gap-1.5 font-mono text-[9.5px] text-ink-muted transition-colors hover:text-ink"
+            className="flex items-center gap-1.5 font-mono text-[9px] text-ink-muted transition-colors hover:text-ink"
             type="button"
           >
             {copied ? <Check className="h-3 w-3 text-mine-ok" /> : <Copy className="h-3 w-3" />}
@@ -39,7 +39,7 @@ export function CopyBlock({ code, label }: { code: string; label?: string }) {
           </button>
         </div>
       )}
-      <pre className="overflow-x-auto px-3.5 py-3 font-mono text-[11.5px] leading-relaxed text-ink-soft">
+      <pre className="overflow-x-auto px-3 py-2.5 font-mono text-[11px] leading-relaxed text-ink-soft">
         <code>{code}</code>
       </pre>
     </div>
@@ -48,9 +48,18 @@ export function CopyBlock({ code, label }: { code: string; label?: string }) {
 
 export function SkillSection() {
   const { t, locale } = useI18n();
+  const [open, setOpen] = useState(false);
 
-  // Read the bound token from the vault so the copy blocks fill themselves in
-  // the moment the creator binds it. No redeploy needed.
+  // Deep link: /#skill opens the panel.
+  useEffect(() => {
+    const sync = () => {
+      if (window.location.hash === "#skill") setOpen(true);
+    };
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
+
   const tokenRead = useReadContract({
     address: SITE.vault || undefined,
     abi: vaultAbi,
@@ -91,44 +100,73 @@ aimine watch --interval 300 --min 0.005`;
       : `Install and run the agent-mine skill for me. First run: git clone ${REPO} && node agent-mine/cli/install.mjs. Then aimine init --vault ${vault} --token ${tokenLabel}, aimine doctor to check my .ai, claim a rig, stake the minimum, and keep aimine watch --interval 300 running. Tell me when a transaction needs my confirmation in the app.`;
 
   return (
-    <section id="skill" className="relative py-14">
+    <section id="skill" className="relative py-8">
       <div className="mx-auto max-w-6xl px-5">
-        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div className="min-w-0">
-            <div className="inline-flex items-center gap-2 rounded-full border border-mine-cyan/25 bg-mine-cyan/[0.06] px-3 py-1.5">
-              <Terminal className="h-3 w-3 text-mine-cyan" />
-              <span className="label-mono text-[9px] tracking-[0.24em] text-mine-cyan-soft">{t.skill.label}</span>
-            </div>
-            <h2 className="mt-5 text-balance text-[30px] font-semibold leading-tight tracking-tightest sm:text-[38px]">
-              {t.skill.title}
-            </h2>
-            <p className="mt-5 max-w-lg text-[13.5px] leading-relaxed text-ink-soft">
-              {t.skill.body.split("agent-mine")[0]}
-              <span className="font-mono text-mine-cyan">agent-mine</span>
-              {t.skill.body.split("agent-mine")[1]}
-            </p>
-
-            <div className="mt-7 space-y-3">
-              {[...t.skill.bullets].map((line) => (
-                <div key={line} className="flex items-start gap-2.5">
-                  <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-mine-cyan" />
-                  <span className="text-[12.5px] leading-relaxed text-ink-muted">{line}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="min-w-0 space-y-3">
-            <CopyBlock code={commands} label={t.skill.installLabel} />
-            <CopyBlock code={prompt} label={t.skill.promptLabel} />
-
-            <p className="px-1 text-[11px] leading-relaxed text-ink-faint">{t.skill.hint}</p>
-
-            <div className="flex items-start gap-2.5 rounded-xl border border-white/[0.06] bg-white/[0.015] px-4 py-3">
-              <span className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-mine-amber/15 font-mono text-[7px] text-mine-amber">
-                !
+        <div className="overflow-hidden rounded-lg border border-white/[0.07] bg-white/[0.015]">
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-white/[0.03]"
+          >
+            <span className="flex min-w-0 items-center gap-3">
+              <Terminal className="h-4 w-4 shrink-0 text-mine-amber" />
+              <span className="label-mono shrink-0 text-[9px] tracking-[0.2em]">
+                03 / {t.skill.label}
               </span>
-              <p className="text-[11px] leading-relaxed text-ink-muted">{t.skill.note}</p>
+              <span className="hidden truncate text-[13px] text-ink-soft sm:inline">{t.skill.title}</span>
+            </span>
+            <span className="flex shrink-0 items-center gap-2.5">
+              <span className="hidden font-mono text-[9px] tracking-[0.16em] text-ink-faint sm:inline">
+                {open
+                  ? locale === "zh"
+                    ? "收起"
+                    : "COLLAPSE"
+                  : locale === "zh"
+                    ? "展开"
+                    : "EXPAND"}
+              </span>
+              <ChevronDown
+                className={`h-4 w-4 text-ink-muted transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+              />
+            </span>
+          </button>
+
+          <div
+            className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+              open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div className="grid gap-6 border-t border-white/[0.07] p-5 lg:grid-cols-[0.85fr_1.15fr]">
+                <div className="min-w-0">
+                  <p className="text-[13px] leading-relaxed text-ink-soft">
+                    {t.skill.body.split("agent-mine")[0]}
+                    <span className="font-mono text-mine-amber">agent-mine</span>
+                    {t.skill.body.split("agent-mine")[1]}
+                  </p>
+                  <div className="mt-4 space-y-2">
+                    {[...t.skill.bullets].map((line) => (
+                      <div key={line} className="flex items-start gap-2.5">
+                        <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-mine-amber" />
+                        <span className="text-[11.5px] leading-relaxed text-ink-muted">{line}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 flex items-start gap-2 border-t border-white/[0.06] pt-3">
+                    <span className="mt-0.5 grid h-3.5 w-3.5 shrink-0 place-items-center rounded-sm bg-mine-amber/15 font-mono text-[7px] text-mine-amber">
+                      !
+                    </span>
+                    <p className="text-[10.5px] leading-relaxed text-ink-faint">{t.skill.note}</p>
+                  </div>
+                </div>
+
+                <div className="min-w-0 space-y-2.5">
+                  <CopyBlock code={commands} label={t.skill.installLabel} />
+                  <CopyBlock code={prompt} label={t.skill.promptLabel} />
+                  <p className="text-[10.5px] leading-relaxed text-ink-faint">{t.skill.hint}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
