@@ -5,7 +5,6 @@ import { Hero } from "@/components/hero";
 import { HowItWorks } from "@/components/how-it-works";
 import { DataSection } from "@/components/data-section";
 import { MinePanel } from "@/components/mine-panel";
-import { SkillSection } from "@/components/skill-section";
 import { Mechanics } from "@/components/mechanics";
 
 export default function Home() {
@@ -20,7 +19,6 @@ export default function Home() {
         <DataSection />
         <MinePanel />
         <div className="divider mx-auto max-w-6xl" />
-        <SkillSection />
         <Mechanics />
       </main>
       <SiteFooter />

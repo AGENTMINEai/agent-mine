@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
 import { MiningVideo } from "@/components/visuals/mining-video";
+import { SkillSection } from "@/components/skill-section";
 import { PoolStats, PoolTicker } from "@/components/pool-live";
 import { usePool } from "@/hooks/use-pool";
 import { SITE, isConfigured } from "@/lib/site";
@@ -91,6 +92,8 @@ export function Hero() {
                 {t.hero.trust2}
               </span>
             </div>
+
+            <SkillSection inline />
           </div>
 
           {/* balance floats on the footage */}
