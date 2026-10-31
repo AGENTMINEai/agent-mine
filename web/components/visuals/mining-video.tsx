@@ -17,10 +17,10 @@ export function MiningVideo({
   bare?: boolean;
 }) {
   const video = useRef<HTMLVideoElement>(null);
-  const [src, setSrc] = useState("/media/rig-1248.mp4");
+  const [src, setSrc] = useState("/media/rig-1024.mp4");
 
   useEffect(() => {
-    if (window.matchMedia("(max-width: 768px)").matches) setSrc("/media/rig-720.mp4");
+    if (window.matchMedia("(max-width: 768px)").matches) setSrc("/media/rig-640.mp4");
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -46,7 +46,7 @@ export function MiningVideo({
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="none"
         className="absolute inset-0 h-full w-full object-cover"
       />
 
