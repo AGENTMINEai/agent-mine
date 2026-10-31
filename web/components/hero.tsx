@@ -2,11 +2,14 @@
 
 import Link from "next/link";
 import { ArrowUpRight, ShieldCheck, Terminal, Cpu } from "lucide-react";
-import { PoolOrb } from "@/components/visuals/pool-orb";
+import { MiningVideo } from "@/components/visuals/mining-video";
 import { Starfield } from "@/components/visuals/starfield";
-import { OrbHud, PoolCore, PoolStats, PoolTicker } from "@/components/pool-live";
-import { SITE, isConfigured } from "@/lib/site";
+import { PoolCore, PoolStats, PoolTicker } from "@/components/pool-live";
+import { SITE } from "@/lib/site";
 import { useI18n } from "@/components/providers/locale-provider";
+
+const BLEED_MASK =
+  "radial-gradient(ellipse 74% 68% at 58% 48%, #000 36%, transparent 82%)";
 
 export function Hero() {
   const { t } = useI18n();
@@ -17,6 +20,17 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 opacity-70">
         <Starfield className="h-full w-full" />
       </div>
+
+      {/* cinematic bleed: no frame, edges dissolved into the page */}
+      <div
+        className="pointer-events-none absolute right-0 top-0 hidden h-full w-[56%] lg:block"
+        style={{ maskImage: BLEED_MASK, WebkitMaskImage: BLEED_MASK }}
+      >
+        <MiningVideo bare className="h-full w-full" />
+      </div>
+      {/* keep the copy readable: hard fade on the left, soft fade at the bottom */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-[64%] bg-[linear-gradient(to_right,#040507_0%,#040507_36%,rgba(4,5,7,0.94)_46%,rgba(4,5,7,0.6)_56%,transparent_70%)] lg:block" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[46%] bg-gradient-to-t from-obsidian-950 via-obsidian-950/75 to-transparent lg:block" />
 
       <div className="relative mx-auto max-w-6xl px-5">
         <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
@@ -72,16 +86,21 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[640px]">
-            <PoolOrb className="aspect-square w-full">
+          {/* balance floats on the video, no card frame around the footage */}
+          <div className="relative flex justify-center lg:justify-end">
+            <div className="w-full max-w-[320px] rounded-2xl border border-white/[0.06] bg-obsidian-950/45 px-5 py-4 backdrop-blur-sm">
               <PoolCore />
-            </PoolOrb>
-            <OrbHud />
-            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-full border border-white/[0.07] bg-obsidian-900/80 px-3 py-1.5 backdrop-blur">
-              <span className="label-mono text-[8.5px] tracking-[0.28em] text-ink-muted">
-                {isConfigured ? t.hero.realtime : t.hero.awaiting}
-              </span>
             </div>
+          </div>
+        </div>
+
+        {/* mobile: the same footage, full width, no frame */}
+        <div className="mt-10 lg:hidden">
+          <div
+            className="h-60 w-full"
+            style={{ maskImage: BLEED_MASK, WebkitMaskImage: BLEED_MASK }}
+          >
+            <MiningVideo bare className="h-full w-full" />
           </div>
         </div>
 
