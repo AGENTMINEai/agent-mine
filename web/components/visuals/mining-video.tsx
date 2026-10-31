@@ -59,7 +59,7 @@ export function MiningVideo({
 
       {!bare && children && (
         <div className="absolute inset-x-0 bottom-0 flex justify-center p-4">
-          <div className="rounded-2xl border border-white/10 bg-obsidian-950/82 px-5 py-3 shadow-panel backdrop-blur-md">
+          <div className="rounded-lg border border-white/10 bg-obsidian-950/82 px-5 py-3 shadow-panel backdrop-blur-md">
             {children}
           </div>
         </div>

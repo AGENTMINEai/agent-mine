@@ -36,7 +36,7 @@ export function MinePanel() {
   const soldOut = remaining === 0;
 
   return (
-    <section id="mine" className="relative py-20">
+    <section id="mine" className="relative py-14">
       <div className="mx-auto max-w-6xl px-5">
         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
@@ -59,7 +59,7 @@ export function MinePanel() {
           </p>
         </div>
 
-        <div className="mt-10 overflow-hidden rounded-3xl glass-deep shadow-panel panel-glow">
+        <div className="mt-10 overflow-hidden rounded-xl glass-deep shadow-panel">
           {/* status bar */}
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] px-6 py-4">
             <div className="flex items-center gap-3">
@@ -159,7 +159,7 @@ export function MinePanel() {
                   </div>
                 </div>
 
-                <div className="mt-5 flex items-center gap-4 rounded-2xl border border-white/[0.06] bg-white/[0.015] px-4 py-3">
+                <div className="mt-5 flex items-center gap-4 rounded-lg border border-white/[0.06] bg-white/[0.015] px-4 py-3">
                   <Ring value={share / 100} size={64} stroke={6} color="#FFB454">
                     <span className="number text-[10.5px] text-mine-amber">{share.toFixed(1)}%</span>
                   </Ring>
@@ -172,7 +172,7 @@ export function MinePanel() {
                 </div>
 
                 <div className="relative mt-3 h-9 overflow-hidden rounded-xl border border-white/[0.06] bg-obsidian-950/60">
-                  <div className="absolute inset-y-0 w-1/3 bg-[linear-gradient(90deg,transparent,rgba(255,180,84,0.22),transparent)] animate-shimmer" />
+                  <div className="absolute inset-y-0 w-1/3 bg-[linear-gradient(90deg,transparent,rgba(61,123,255,0.28),transparent)] animate-pulse" />
                   <div className="relative flex h-full items-center justify-between px-3 font-mono text-[8.5px] tracking-[0.1em] text-ink-faint">
                     <span>TAX</span>
                     <span className="text-mine-amber/70">▸ POOL</span>
@@ -181,7 +181,7 @@ export function MinePanel() {
                   </div>
                 </div>
 
-                <div className="mt-4 rounded-2xl border border-white/[0.06] bg-white/[0.015] px-4">
+                <div className="mt-4 rounded-lg border border-white/[0.06] bg-white/[0.015] px-4">
                   <Field label={t.mine.staked} value={`${formatTokens(staked)} / ${minStakeLabel}`} />
                   <Field label={t.mine.hashrate} value={formatTokens(hash)} accent="text-mine-cyan" />
                   <Field label={t.mine.tokenBalance} value={formatTokens(m.tokenBalance, m.decimals)} />
@@ -225,7 +225,7 @@ export function MinePanel() {
                   </div>
                 )}
 
-                <div className="mt-4 rounded-2xl border border-white/[0.07] bg-obsidian-900/60 p-1.5">
+                <div className="mt-4 rounded-lg border border-white/[0.07] bg-obsidian-900/60 p-1.5">
                   <div className="flex items-center gap-2 px-3 py-2.5">
                     <input
                       value={amount}

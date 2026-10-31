@@ -58,7 +58,7 @@ export function WalletButton({ compact = false }: { compact?: boolean }) {
           <ChevronDown className="h-3.5 w-3.5 text-ink-muted" />
         </button>
         {open && (
-          <div className="absolute right-0 top-12 z-50 w-52 overflow-hidden rounded-2xl glass-deep p-1.5 shadow-panel">
+          <div className="absolute right-0 top-12 z-50 w-52 overflow-hidden rounded-lg glass-deep p-1.5 shadow-panel">
             <button
               onClick={() => {
                 disconnect();
@@ -83,7 +83,7 @@ export function WalletButton({ compact = false }: { compact?: boolean }) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-12 z-50 w-64 overflow-hidden rounded-2xl glass-deep p-1.5 shadow-panel">
+        <div className="absolute right-0 top-12 z-50 w-64 overflow-hidden rounded-lg glass-deep p-1.5 shadow-panel">
           <button
             onClick={() => connect("binance")}
             className="flex w-full items-center justify-between rounded-xl px-3 py-3 text-left hover:bg-white/5"

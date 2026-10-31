@@ -1,7 +1,7 @@
 export function BrandWordmark({ className = "" }: { className?: string }) {
   return (
     <span
-      className={`font-semibold uppercase leading-none ${className}`}
+      className={`font-display font-semibold uppercase leading-none ${className}`}
       style={{ letterSpacing: "0.12em" }}
     >
       <span className="brand-gold">AGENT</span>

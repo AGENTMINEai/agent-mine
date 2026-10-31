@@ -1,115 +1,137 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, ShieldCheck, Terminal, Cpu } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { MiningVideo } from "@/components/visuals/mining-video";
-import { Starfield } from "@/components/visuals/starfield";
-import { PoolCore, PoolStats, PoolTicker } from "@/components/pool-live";
-import { SITE } from "@/lib/site";
+import { PoolStats, PoolTicker } from "@/components/pool-live";
+import { usePool } from "@/hooks/use-pool";
+import { SITE, isConfigured } from "@/lib/site";
 import { useI18n } from "@/components/providers/locale-provider";
+import { formatBnb } from "@/lib/utils";
 
-const BLEED_MASK =
-  "radial-gradient(ellipse 74% 68% at 58% 48%, #000 36%, transparent 82%)";
+const BLEED_MASK = "radial-gradient(ellipse 76% 70% at 58% 48%, #000 34%, transparent 82%)";
+const LEFT_FADE =
+  "linear-gradient(to right, #04060A 0%, #04060A 34%, rgba(4,6,10,0.94) 44%, rgba(4,6,10,0.6) 54%, transparent 68%)";
 
 export function Hero() {
   const { t } = useI18n();
+  const { pool } = usePool();
   const [bodyBefore, bodyAfter] = t.hero.body.split(".ai Agent ID");
+  const rigs = pool ? Number(pool.totalRigs) : 0;
+
+  const kv = [
+    { k: "POOL", v: isConfigured ? `${formatBnb(pool?.reserve, 3)} BNB` : "—" },
+    { k: "RIGS", v: `${isConfigured ? rigs : 0}/${SITE.maxRigs}` },
+    { k: "GATE", v: ".ai only", accent: true },
+  ];
 
   return (
-    <section className="relative overflow-hidden pt-16 sm:pt-24">
-      <div className="pointer-events-none absolute inset-0 opacity-70">
-        <Starfield className="h-full w-full" />
+    <section className="relative overflow-hidden pt-12 sm:pt-16">
+      <div className="pointer-events-none absolute inset-0 hidden lg:block">
+        <div
+          className="absolute right-0 top-0 h-full w-[58%]"
+          style={{ maskImage: BLEED_MASK, WebkitMaskImage: BLEED_MASK }}
+        >
+          <MiningVideo bare className="h-full w-full" />
+          <div className="absolute inset-0 bg-obsidian-950/25" />
+        </div>
+        <div className="absolute inset-y-0 left-0 w-[62%] bg-[linear-gradient(to_right,#04060A_0%,#04060A_34%,rgba(4,6,10,0.94)_44%,rgba(4,6,10,0.6)_54%,transparent_68%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-obsidian-950 via-obsidian-950/70 to-transparent" />
       </div>
-
-      {/* cinematic bleed: no frame, edges dissolved into the page */}
-      <div
-        className="pointer-events-none absolute right-0 top-0 hidden h-full w-[56%] lg:block"
-        style={{ maskImage: BLEED_MASK, WebkitMaskImage: BLEED_MASK }}
-      >
-        <MiningVideo bare className="h-full w-full" />
-      </div>
-      {/* keep the copy readable: hard fade on the left, soft fade at the bottom */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-[64%] bg-[linear-gradient(to_right,#040507_0%,#040507_36%,rgba(4,5,7,0.94)_46%,rgba(4,5,7,0.6)_56%,transparent_70%)] lg:block" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[46%] bg-gradient-to-t from-obsidian-950 via-obsidian-950/75 to-transparent lg:block" />
 
       <div className="relative mx-auto max-w-6xl px-5">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="grid gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-mine-amber/25 bg-mine-amber/[0.07] px-3 py-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-mine-amber animate-breathe" />
-              <span className="label-mono text-[9.5px] tracking-[0.26em] text-mine-amber-soft">
-                {t.hero.badge}
-              </span>
+            <div className="flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] text-ink-muted">
+              <span className="h-1.5 w-1.5 rounded-full bg-mine-ok animate-breathe" />
+              SYSTEM ONLINE
+              <span className="text-ink-faint">/</span>
+              BINANCE .AI AGENT ID
             </div>
 
-            <h1 className="mt-7 text-balance text-[42px] font-semibold leading-[1.04] tracking-tightest sm:text-[58px]">
+            <h1 className="mt-6 text-balance text-[40px] font-semibold leading-[1.05] tracking-tightest sm:text-[54px]">
               {t.hero.title1}
               <br />
               <span className="gradient-text">{t.hero.title2}</span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-balance text-[14.5px] leading-relaxed text-ink-soft">
+            <p className="mt-5 max-w-xl text-balance text-[14px] leading-relaxed text-ink-soft">
               {bodyBefore}
               <span className="text-mine-amber">.ai Agent ID</span>
               {bodyAfter}
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-7 flex flex-wrap items-center gap-3">
               <Link href="/#mine" className="btn btn-primary">
-                <Cpu className="h-4 w-4" />
                 {t.hero.ctaMine}
               </Link>
               <Link href="/#skill" className="btn btn-ghost">
-                <Terminal className="h-4 w-4" />
                 {t.hero.ctaSkill}
               </Link>
             </div>
 
-            <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
-              <span className="flex items-center gap-1.5 text-[11.5px] text-ink-muted">
+            <dl className="mt-8 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-lg border border-white/[0.07] bg-white/[0.02]">
+              {kv.map((item) => (
+                <div key={item.k} className="bg-obsidian-950/70 px-4 py-3">
+                  <dt className="label-mono text-[8.5px] tracking-[0.2em]">{item.k}</dt>
+                  <dd className={`number mt-1.5 text-[13px] ${item.accent ? "text-mine-amber" : "text-ink"}`}>
+                    {item.v}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[11px] text-ink-muted">
+              <span className="flex items-center gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-mine-ok" />
                 {t.hero.trust1}
               </span>
-              <span className="flex items-center gap-1.5 text-[11.5px] text-ink-muted">
+              <span className="flex items-center gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-mine-ok" />
                 {t.hero.trust2}
               </span>
-              <a
-                href={`${SITE.bscScan}/address/${SITE.registry}`}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 font-mono text-[11px] text-ink-muted hover:text-mine-cyan"
-              >
-                {t.hero.gate} {SITE.registry.slice(0, 8)}…{SITE.registry.slice(-4)}
-                <ArrowUpRight className="h-3 w-3" />
-              </a>
             </div>
           </div>
 
-          {/* balance floats on the video, no card frame around the footage */}
+          {/* balance floats on the footage */}
           <div className="relative flex justify-center lg:justify-end">
-            <div className="w-full max-w-[320px] rounded-2xl border border-white/[0.06] bg-obsidian-950/45 px-5 py-4 backdrop-blur-sm">
-              <PoolCore />
+            <div className="w-full max-w-[320px] rounded-lg border border-white/[0.08] bg-obsidian-950/55 px-5 py-4 backdrop-blur-sm">
+              <div className="flex items-center justify-between">
+                <span className="label-mono text-[8.5px]">POOL BALANCE</span>
+                <span className="flex items-center gap-1.5">
+                  <span className={`h-1.5 w-1.5 rounded-full ${isConfigured ? "bg-mine-ok" : "bg-ink-faint"} animate-breathe`} />
+                  <span className={`label-mono text-[8.5px] ${isConfigured ? "text-mine-ok" : "text-ink-faint"}`}>
+                    {isConfigured ? "LIVE" : "PRE"}
+                  </span>
+                </span>
+              </div>
+              <div className="mt-2 flex items-baseline gap-1.5">
+                <span className="number text-[30px] text-ink">
+                  {isConfigured ? formatBnb(pool?.reserve, 4) : "—"}
+                </span>
+                <span className="font-mono text-[10px] text-ink-muted">BNB</span>
+              </div>
+              <div className="mt-3 flex items-center justify-between border-t border-white/[0.07] pt-2 font-mono text-[9px] tracking-[0.12em] text-ink-faint">
+                <span>STATUS</span>
+                <span className="text-ink-soft">{isConfigured ? "MINING" : "PRE-LAUNCH"}</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* mobile: the same footage, full width, no frame */}
+        {/* mobile: same footage, full width, masked */}
         <div className="mt-10 lg:hidden">
-          <div
-            className="h-60 w-full"
-            style={{ maskImage: BLEED_MASK, WebkitMaskImage: BLEED_MASK }}
-          >
+          <div className="h-56 w-full" style={{ maskImage: BLEED_MASK, WebkitMaskImage: BLEED_MASK }}>
             <MiningVideo bare className="h-full w-full" />
           </div>
         </div>
 
-        <div className="mt-16">
+        <div className="mt-14 border-t border-white/[0.07] pt-6">
           <PoolStats />
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 px-1">
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
             <PoolTicker />
-            <span className="label-mono text-[8.5px] tracking-[0.24em] text-ink-faint">
-              {t.hero.network}
+            <span className="font-mono text-[9px] tracking-[0.18em] text-ink-faint">
+              {t.hero.gate} {SITE.registry.slice(0, 8)}…
             </span>
           </div>
         </div>

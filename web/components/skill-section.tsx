@@ -91,7 +91,7 @@ aimine watch --interval 300 --min 0.005`;
       : `Install and run the agent-mine skill for me. First run: git clone ${REPO} && node agent-mine/cli/install.mjs. Then aimine init --vault ${vault} --token ${tokenLabel}, aimine doctor to check my .ai, claim a rig, stake the minimum, and keep aimine watch --interval 300 running. Tell me when a transaction needs my confirmation in the app.`;
 
   return (
-    <section id="skill" className="relative py-20">
+    <section id="skill" className="relative py-14">
       <div className="mx-auto max-w-6xl px-5">
         <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <div className="min-w-0">

@@ -73,7 +73,7 @@ export function DataSection() {
   const delta = hasLive && liveSeries.length > 1 ? liveSeries[liveSeries.length - 1] - liveSeries[0] : 0;
 
   return (
-    <section id="data" className="relative py-20">
+    <section id="data" className="relative py-14">
       <div className="mx-auto max-w-6xl px-5">
         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
@@ -89,7 +89,7 @@ export function DataSection() {
 
         <div className="mt-10 grid gap-4 lg:grid-cols-[1.55fr_0.45fr]">
           {/* main chart */}
-          <div className="relative overflow-hidden rounded-2xl glass p-6">
+          <div className="relative overflow-hidden rounded-lg glass p-6">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <div className="label-mono flex items-center gap-2 text-[9px] tracking-[0.24em]">
@@ -125,6 +125,7 @@ export function DataSection() {
 
             <div className="mt-6">
               <AreaChart
+                color="#3D7BFF"
                 values={series}
                 height={210}
                 fillId="pool-area"
@@ -156,7 +157,7 @@ export function DataSection() {
 
           {/* metric tiles */}
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-            <div className="relative overflow-hidden rounded-2xl glass p-5">
+            <div className="relative overflow-hidden rounded-lg glass p-5">
               <div className="flex items-center gap-2">
                 <Activity className="h-3.5 w-3.5 text-mine-amber" />
                 <span className="label-mono text-[9px] tracking-[0.22em]">{t.data.perSecond}</span>
@@ -168,11 +169,11 @@ export function DataSection() {
                 <span className="font-mono text-[9px] text-ink-faint">BNB/s</span>
               </div>
               <div className="relative mt-3 h-[3px] overflow-hidden rounded-full bg-white/[0.06]">
-                <div className="absolute inset-y-0 left-0 w-1/3 rounded-full bg-gradient-to-r from-mine-amber/0 via-mine-amber/80 to-mine-amber/0 animate-shimmer" />
+                <div className="absolute inset-y-0 left-0 w-1/3 rounded-full bg-gradient-to-r from-mine-amber/0 via-mine-amber/80 to-mine-amber/0 animate-pulse" />
               </div>
             </div>
 
-            <div className="rounded-2xl glass p-5">
+            <div className="rounded-lg glass p-5">
               <div className="flex items-center gap-2">
                 <GaugeIcon className="h-3.5 w-3.5 text-mine-cyan" />
                 <span className="label-mono text-[9px] tracking-[0.22em]">{t.data.halfLife}</span>
@@ -184,13 +185,13 @@ export function DataSection() {
                     {t.data.window} {((pool ? Number(pool.dripWindow) : 86400) / 3600).toFixed(0)}h
                   </div>
                 </div>
-                <Ring value={0.693} size={52} stroke={5} color="#4DE1FF">
+                <Ring value={0.693} size={52} stroke={5} color="#3D7BFF">
                   <span className="font-mono text-[8px] text-ink-muted">x½</span>
                 </Ring>
               </div>
             </div>
 
-            <div className="rounded-2xl glass p-5">
+            <div className="rounded-lg glass p-5">
               <div className="flex items-center gap-2">
                 <HardDrive className="h-3.5 w-3.5 text-ink-soft" />
                 <span className="label-mono text-[9px] tracking-[0.22em]">{t.data.rigsLeft}</span>

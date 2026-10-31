@@ -95,7 +95,7 @@ export function PoolStats() {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] md:grid-cols-4">
+    <div className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-white/[0.06] bg-white/[0.02] md:grid-cols-4">
       {cardDefs.map((card) => {
         const v = values[card.key];
         const Icon = card.icon;
