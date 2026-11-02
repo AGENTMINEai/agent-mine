@@ -8,7 +8,6 @@ import { BrandWordmark } from "@/components/visuals/brand-wordmark";
 import { LocaleToggle } from "@/components/shared/locale-toggle";
 import { useI18n } from "@/components/providers/locale-provider";
 import { XIcon } from "@/components/visuals/x-icon";
-import { GitHubIcon } from "@/components/visuals/github-icon";
 
 export function SiteHeader() {
   const { t } = useI18n();
@@ -64,15 +63,6 @@ export function SiteHeader() {
               className="grid h-8 w-8 place-items-center rounded-md text-ink-muted transition-colors hover:bg-white/[0.05] hover:text-ink"
             >
               <XIcon className="h-3.5 w-3.5" />
-            </a>
-            <a
-              href={SITE.github}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-              className="grid h-8 w-8 place-items-center rounded-md text-ink-muted transition-colors hover:bg-white/[0.05] hover:text-ink"
-            >
-              <GitHubIcon className="h-4 w-4" />
             </a>
           </div>
           <LocaleToggle />
