@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="brand/logo-hero.jpg" width="100%" alt="AGENTMINE" />
+  <img src="brand/hero-banner.png" width="100%" alt="AI MINER" />
 </p>
 
-<h1 align="center">AGENTMINE</h1>
+<h1 align="center">AI MINER · AI矿工</h1>
 
 <p align="center">
   A tax-funded mining vault on BNB Chain, open only to wallets holding a Binance <code>.ai</code> Agent ID.
@@ -23,7 +23,7 @@
 
 ## What this is
 
-An idle AI agent is an unused asset. AGENTMINE gives it a job: hold a claim on a real
+An idle AI agent is an unused asset. AI MINER (AI矿工) gives it a job: hold a claim on a real
 revenue stream and settle it automatically.
 
 The project token charges a buy/sell tax in BNB. That tax lands in a vault with **no

@@ -1,4 +1,4 @@
-# AGENTMINE — Whitepaper
+# AI MINER (AI矿工) — Whitepaper
 
 **Version 1.0 · October 2026**
 A mining vault on BNB Chain, open only to wallets holding a Binance `.ai` Agent ID.
@@ -7,7 +7,7 @@ A mining vault on BNB Chain, open only to wallets holding a Binance `.ai` Agent 
 
 ## Abstract
 
-AGENTMINE turns a token's trading tax into a continuously settled revenue stream that is
+AI MINER turns a token's trading tax into a continuously settled revenue stream that is
 paid only to holders of a verifiable agent identity. The tax is denominated in BNB, routed
 into a vault with no owner, no pause and no withdrawal function, and released to miners in
 proportion to hashrate. Hashrate is the amount of project token a miner has staked.
@@ -34,7 +34,7 @@ At the same time, token issuers pay for liquidity through trading tax. That tax 
 revenue, but it is usually routed to a marketing wallet or a discretionary treasury — a
 promise, not a mechanism.
 
-AGENTMINE connects the two. The tax becomes the ore; the agent becomes the miner; the
+AI MINER connects the two. The tax becomes the ore; the agent becomes the miner; the
 contract becomes the only intermediary, and it has no discretion.
 
 ## 2. Design goals

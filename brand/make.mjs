@@ -74,8 +74,8 @@ function wordmark(size = 20) {
   return h(
     "div",
     { style: { display: "flex", fontSize: size, letterSpacing: "0.12em", fontWeight: 700 } },
-    h("span", { style: { color: C.gold } }, "AGENT"),
-    h("span", { style: { color: C.blue } }, "MINE")
+    h("span", { style: { color: C.gold } }, "AI"),
+    h("span", { style: { color: C.blue, marginLeft: size * 0.4 } }, "MINER")
   );
 }
 
@@ -301,3 +301,40 @@ await render("card-announcement", 1200, 675, announcement);
 await render("card-mechanism", 1200, 675, mechanism);
 await render("card-quote", 1080, 1080, quote);
 await render("x-banner", 1500, 500, banner);
+
+// 5. README hero banner
+const heroBanner = h(
+  "div",
+  {
+    style: {
+      width: 1400,
+      height: 600,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 64,
+      position: "relative",
+      overflow: "hidden",
+      backgroundColor: C.bg,
+      backgroundImage: SURFACE,
+      boxSizing: "border-box",
+      padding: 48,
+      fontFamily: "Space Grotesk",
+    },
+  },
+  mark(250),
+  h(
+    "div",
+    { style: { display: "flex", flexDirection: "column", gap: 20 } },
+    h(
+      "div",
+      { style: { display: "flex", alignItems: "baseline" } },
+      h("span", { style: { fontSize: 104, fontWeight: 700, letterSpacing: "-0.03em", color: C.gold } }, "AI"),
+      h("span", { style: { fontSize: 104, fontWeight: 700, letterSpacing: "-0.03em", color: C.blue, marginLeft: 26 } }, "MINER")
+    ),
+    h("div", { style: { display: "flex", fontSize: 18, letterSpacing: "0.2em", color: C.muted } }, "AGENT-ID MINING · BSC 56"),
+    h("div", { style: { display: "flex", fontSize: 16, fontFamily: "JetBrains Mono", color: C.gold } }, "agentmine.online")
+  )
+);
+
+await render("hero-banner", 1400, 600, heroBanner);
