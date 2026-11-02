@@ -20,7 +20,7 @@ export function SiteFooter() {
         <div className="flex flex-col justify-between gap-10 md:flex-row">
           <div className="max-w-sm">
             <div className="flex items-center gap-2.5">
-              <span className="grid h-7 w-7 place-items-center overflow-hidden rounded-md border border-white/10 bg-[#02050a]">
+              <span className="grid h-8 w-8 place-items-center overflow-hidden rounded-md border border-white/10 bg-[#02050a]">
                 <Image src="/brand/logo-mark.png" alt="" width={48} height={48} className="h-full w-full object-cover" />
               </span>
               <BrandWordmark className="text-[12px]" />

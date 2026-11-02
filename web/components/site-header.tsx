@@ -24,12 +24,12 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-white/[0.07] bg-obsidian-950/85 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-4 sm:px-5">
         <Link href="/" className="group flex min-w-0 items-center gap-2.5">
-          <span className="grid h-8 w-8 shrink-0 place-items-center overflow-hidden rounded-md border border-white/10 bg-[#02050a]">
+          <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-lg border border-white/10 bg-[#02050a]">
             <Image
               src="/brand/logo-mark.png"
               alt=""
-              width={64}
-              height={64}
+              width={80}
+              height={80}
               priority
               className="h-full w-full object-cover"
             />
