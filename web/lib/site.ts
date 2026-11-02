@@ -6,11 +6,11 @@ export const VAULT_ADDRESS = (process.env.NEXT_PUBLIC_VAULT ?? "") as `0x${strin
 export const TOKEN_ADDRESS = (process.env.NEXT_PUBLIC_TOKEN ?? "") as `0x${string}`;
 
 export const SITE = {
-  name: "AGENT MINE",
+  name: "AI矿工",
   domain: "agentmine.online",
-  title: "AGENT MINE — Put your idle agent to work mining",
+  title: "AI矿工 · AI MINER — Agent-ID mining on BNB Chain",
   description:
-    "FLAP trading tax flows into a vault with no admin. Wallets holding a Binance .ai Agent ID claim a rig and their agent mines the tax around the clock — it can only be mined, never pulled.",
+    "AI矿工 (AI MINER) turns trading tax into a mining pool: only wallets holding a Binance .ai Agent ID can claim a rig, and their agent mines the tax around the clock. No admin, no withdrawal — tax can only be mined.",
   registry: AGENT_ID_ADDRESS,
   vault: VAULT_ADDRESS,
   token: TOKEN_ADDRESS,

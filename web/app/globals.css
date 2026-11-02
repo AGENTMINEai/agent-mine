@@ -143,6 +143,20 @@ section[id] {
     background: var(--hairline);
   }
 
+  .brand-gold {
+    background: linear-gradient(180deg, #ffe9b0 0%, #f7c84b 48%, #d89406 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .brand-blue {
+    background: linear-gradient(180deg, #d8f2ff 0%, #6cc0ff 48%, #3d7bff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
   .bracket {
     position: absolute;
     width: 10px;
